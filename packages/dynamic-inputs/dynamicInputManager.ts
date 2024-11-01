@@ -1,71 +1,62 @@
+import { IMaskPassNodeSocket, INodeSocket } from "./NodeSockets";
+
+type NodeSocketEntry = { key: string, socket: INodeSocket }
+
 /**
- * Defines the base data input which provides an interface between
- * user-provided UI dontrols and Playbook's custom ComfyUI nodes.
+ * Provides an interface of data sockets which can be used to 
+ * read and write values to and from dynamic workflow nodes in
+ * a ComfyUI workflow.
  */
-export interface INodeInput {
+export class DynamicInputsManager {
+    private workflowData: string
+    private nodeSockets: NodeSocketEntry[]
+
+    /**
+     * Instance a new DynamicInputsManager.
+     * @param workflowData JSON-formatted workflow data, output from
+     * a ComfyUI workflow.
+     */
+    constructor(workflowData: string) {
+        this.workflowData = workflowData
+        this.setNodeSockets(this.createNodeSocketsFromWorkflowData(workflowData))
+    }
+
     /** 
-     * A unique identifier which can be used to associate this input
-     * with a node within a ComfyUI workflow.
-     * */
-    id: string,
-
-    /** 
-     * The name of the associated ComfyUI workflow node.
-     * */
-    name: string,
-
-    /**
-     * The default value of the associated ComfyUI node.
+     * Parse JSON-formatted workflow data for dynamic nodes
+     * and create corresponding data sockets for interfacing. 
      */
-    defaultValue: any,
+    private createNodeSocketsFromWorkflowData(workflowData: string): NodeSocketEntry[] {
+        let nodeSockets: NodeSocketEntry[] = []
 
-    /**
-     * The current value of the associated node in the ComfyUI workflow. 
-     * Use this property as the value source for associated UI controls.
-     */
-    readonly value: any,
+        const parsedData: any = JSON.parse(workflowData)
 
-    /**
-     * A method for setting the internal value of the node. This should be 
-     * called whenever a value change occurs via UI controls.
-     */
-    setValue: (value: any) => {},
-}
+        const nodes: any[] = parsedData.nodes
+        const playbookNodes = nodes.filter(node => node.type.includes('Playbook'))
 
-/**
- * Extends the base input to interface with Playbook's custom text nodes.
- */
-export interface ITextNodeInput extends INodeInput {
-    readonly value: string,
-    setValue: (value: string) => {},
+        playbookNodes.forEach(node => {
 
-    /**
-     * A prompt phrase tailored to influence the workflow to generate
-     * a strong and distinct result.
-     */
-    readonly triggerWords: string,
-}
+            switch (node.type) {
+                case 'Playbook Mask':
+                    nodeSockets.push({
+                        key: node.id,
+                        socket: new IMaskPassNodeSocket(
+                            0, '', '', '', '', '', '', '',
+                        )
+                    })
+                    break;
+                default:
+                    break;
+            }
+        })
 
-/**
- * Extends the base input to interface with Playbook's custom number nodes.
- */
-export interface INumberNodeInput extends INodeInput {
-    readonly value: number,
-    setValue: (value: number) => {},
+        return nodeSockets
+    }
 
-    /**
-     * Determines whether or not the value is allowed to be a decimal.
-     */
-    isDecimal: boolean,
+    public getNodeSockets() {
+        return this.nodeSockets
+    }
 
-    /**
-     * 
-     */
-    min: number, 
-
-    /**
-     * A prompt phrase tailored to influence the workflow to generate
-     * a strong and distinct result.
-     */
-    max: number,
+    private setNodeSockets(nodeSockets: NodeSocketEntry[]) {
+        this.nodeSockets = nodeSockets
+    }
 }
