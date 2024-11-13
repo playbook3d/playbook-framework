@@ -1,7 +1,7 @@
 {
-  "name": "playbook3d-framework",
+  "name": "comfyui-workflow-iframe",
   "version": "0.0.1",
-  "description": "Front end packages for integrating with Playbook and ComfyUI.",
+  "description": "Provides a React iFrame component and wrapper functionality for interfacing with a remote instance of our fork of ComfyUI's front end node editor.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,10 +15,5 @@
   "bugs": {
     "url": "https://github.com/playbook3d/playbook3d-framework/issues"
   },
-  "homepage": "https://github.com/playbook3d/playbook3d-framework#readme",
-  "workspaces": [
-    "packages\\dynamic-inputs",
-    "packages\\comfyui-workflow-iFrame",
-    "packages\\core"
-  ]
+  "homepage": "https://github.com/playbook3d/playbook3d-framework#readme"
 }

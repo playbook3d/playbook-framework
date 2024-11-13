@@ -1,8 +1,8 @@
 {
-  "name": "playbook3d-framework",
+  "name": "core",
   "version": "0.0.1",
-  "description": "Front end packages for integrating with Playbook and ComfyUI.",
-  "main": "index.js",
+  "description": "Core definitions and functionality shared across Playbook's front end framework modules.",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,10 +15,5 @@
   "bugs": {
     "url": "https://github.com/playbook3d/playbook3d-framework/issues"
   },
-  "homepage": "https://github.com/playbook3d/playbook3d-framework#readme",
-  "workspaces": [
-    "packages\\dynamic-inputs",
-    "packages\\comfyui-workflow-iFrame",
-    "packages\\core"
-  ]
+  "homepage": "https://github.com/playbook3d/playbook3d-framework#readme"
 }
