@@ -35,8 +35,8 @@ export abstract class INodeInput {
         this.type = nodeData.type
 
         try {
-            if (nodeData.widgets_values.length > 0) {
-                this.name = nodeData.widgets_values[0]
+            if (nodeData.widgets_values.length > 1) {
+                this.name = nodeData.widgets_values[1]
             } else {
                 throw new Error(`No name found in ${nodeData.type} node data with id ${nodeData.id}.`)
             }
@@ -62,16 +62,16 @@ export class ITextNodeInput extends INodeInput {
 
     constructor(nodeData: ComfyWorkflowNodeData, _setValue: (value: string) => void) {
         super(nodeData, _setValue)
-
+        
         try {
-            if (nodeData.widgets_values.length > 1 ) {
-                this.value = nodeData.widgets_values[1]
+            if (nodeData.widgets_values.length > 2) {
+                this.value = nodeData.widgets_values[2]
             } else {
                 throw new Error(`No value found in ${nodeData.type} node data with id ${nodeData.id}.`)
             }
     
-            if (nodeData.widgets_values.length > 2 ) {
-                this.triggerWords = nodeData.widgets_values[2]
+            if (nodeData.widgets_values.length > 3) {
+                this.triggerWords = nodeData.widgets_values[3]
             } else {
                 throw new Error(`No triggerWords value found in ${nodeData.type} node data with id ${nodeData.id}.`)
             }
@@ -92,17 +92,29 @@ export class INumberNodeInput extends INodeInput {
     readonly setValue: (value: number) => void
 
     /** The minimum threshold for this value. */
-    // min: number
+    min: number
 
     /** The minimum threshold for this value. */
-    // max: number
+    max: number
 
     constructor(nodeData: ComfyWorkflowNodeData, _setValue: (value: number) => void) {
         super(nodeData, _setValue)
 
         try {
-            if (nodeData.widgets_values.length > 1 ) {
-                this.value = nodeData.widgets_values[1]
+            if (nodeData.widgets_values.length > 2) {
+                this.min = nodeData.widgets_values[2]
+            } else {
+                throw new Error(`No min value found in ${nodeData.type} node data with id ${nodeData.id}.`)
+            }
+
+            if (nodeData.widgets_values.length > 3) {
+                this.max = nodeData.widgets_values[3]
+            } else {
+                throw new Error(`No max value found in ${nodeData.type} node data with id ${nodeData.id}.`)
+            }
+
+            if (nodeData.widgets_values.length > 4) {
+                this.value = nodeData.widgets_values[4]
             } else {
                 throw new Error(`No value found in ${nodeData.type} node data with id ${nodeData.id}.`)
             }
@@ -121,16 +133,34 @@ export class IFloatNodeInput extends INodeInput {
     readonly value: number
     readonly setValue: (value: number) => void
 
-    constructor(nodeData: ComfyWorkflowNodeData, _setValue: (value: any) => void) {
+    /** The minimum threshold for this value. */
+    min: number
+
+    /** The minimum threshold for this value. */
+    max: number
+
+    constructor(nodeData: ComfyWorkflowNodeData, _setValue: (value: number) => void) {
         super(nodeData, _setValue)
 
         try {
-            if (nodeData.widgets_values.length > 1 ) {
-                this.value = nodeData.widgets_values[1]
+            if (nodeData.widgets_values.length > 2) {
+                this.min = nodeData.widgets_values[2]
+            } else {
+                throw new Error(`No min value found in ${nodeData.type} node data with id ${nodeData.id}.`)
+            }
+
+            if (nodeData.widgets_values.length > 3) {
+                this.max = nodeData.widgets_values[3]
+            } else {
+                throw new Error(`No max value found in ${nodeData.type} node data with id ${nodeData.id}.`)
+            }
+
+            if (nodeData.widgets_values.length > 4) {
+                this.value = nodeData.widgets_values[4]
             } else {
                 throw new Error(`No value found in ${nodeData.type} node data with id ${nodeData.id}.`)
             }
-
+    
             this.setValue = _setValue
         } catch (error) {
             console.log(error)
@@ -149,8 +179,8 @@ export class IBooleanNodeInput extends INodeInput {
         super(nodeData, _setValue)
 
         try {
-            if (nodeData.widgets_values.length > 1 ) {
-                this.value = nodeData.widgets_values[1]
+            if (nodeData.widgets_values.length > 2) {
+                this.value = nodeData.widgets_values[2]
             } else {
                 throw new Error(`No value found in ${nodeData.type} node data with id ${nodeData.id}.`)
             }
@@ -173,8 +203,8 @@ export class IImageNodeInput extends INodeInput {
         super(nodeData, _setValue)
         
         try {
-            if (nodeData.widgets_values.length > 1 ) {
-                this.value = nodeData.widgets_values[1]
+            if (nodeData.widgets_values.length > 2) {
+                this.value = nodeData.widgets_values[2]
             } else {
                 throw new Error(`No value found in ${nodeData.type} node data with id ${nodeData.id}.`)
             }
