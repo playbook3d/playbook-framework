@@ -33,7 +33,13 @@ export class DynamicInputsManager {
         const updatedWorkflowData: ComfyWorkflowData = { ..._workflowData }
         const nodeIndex: number = _workflowData.nodes.findIndex(node => node.id === nodeId)
 
-        updatedWorkflowData.nodes[nodeIndex].widgets_values[1] = value
+        if (updatedWorkflowData.nodes[nodeIndex].type === 'Playbook Number' ||
+            updatedWorkflowData.nodes[nodeIndex].type === 'Playbook Float' 
+        ) {
+            updatedWorkflowData.nodes[nodeIndex].widgets_values[4] = value
+        } else {
+            updatedWorkflowData.nodes[nodeIndex].widgets_values[2] = value
+        }
 
         return updatedWorkflowData
     }
