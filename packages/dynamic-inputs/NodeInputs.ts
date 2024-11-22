@@ -2,7 +2,7 @@ import { ComfyWorkflowNodeData } from "../core/types"
 
 /**
  * Defines the base data input which provides an interface between
- * user-provided UI dontrols and Playbook's custom ComfyUI nodes.
+ * user-provided UI controls and Playbook's custom ComfyUI nodes.
  */
 export abstract class INodeInput {
     /** Type identifier formatted 'Playbook [node type]' (ex. 'Playbook Text).
