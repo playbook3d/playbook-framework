@@ -1,4 +1,5 @@
 import { ComfyWorkflowNodeData } from "../core/types"
+import { NodeInputAPIFormat } from "./types"
 
 /**
  * Defines the base data input which provides an interface between
@@ -45,6 +46,12 @@ export abstract class INodeInput {
             console.log(error)
         }
     }
+
+    /**
+     * Returns node input data in a format receivable for Playbook's
+     * ComfyUI wrapper API.
+     */
+    abstract getAPIFormat(): NodeInputAPIFormat
 }
 
 /**
@@ -81,6 +88,17 @@ export class ITextNodeInput extends INodeInput {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    getAPIFormat() {
+        const input: NodeInputAPIFormat = {}
+
+        input[this.id] = {
+            'default_value': this.value,
+            'trigger_words': this.triggerWords,
+        }
+
+        return input
     }
 }
 
@@ -124,49 +142,20 @@ export class INumberNodeInput extends INodeInput {
             console.log(error)
         }
     }
-}
 
-/**
- * Extends the base input to interface with Playbook's custom float nodes.
- */
-export class IFloatNodeInput extends INodeInput {
-    readonly value: number
-    readonly setValue: (value: number) => void
+    getAPIFormat() {
+        const input: NodeInputAPIFormat = {}
 
-    /** The minimum threshold for this value. */
-    min: number
-
-    /** The minimum threshold for this value. */
-    max: number
-
-    constructor(nodeData: ComfyWorkflowNodeData, _setValue: (value: number) => void) {
-        super(nodeData, _setValue)
-
-        try {
-            if (nodeData.widgets_values.length > 2) {
-                this.min = nodeData.widgets_values[2]
-            } else {
-                throw new Error(`No min value found in ${nodeData.type} node data with id ${nodeData.id}.`)
-            }
-
-            if (nodeData.widgets_values.length > 3) {
-                this.max = nodeData.widgets_values[3]
-            } else {
-                throw new Error(`No max value found in ${nodeData.type} node data with id ${nodeData.id}.`)
-            }
-
-            if (nodeData.widgets_values.length > 4) {
-                this.value = nodeData.widgets_values[4]
-            } else {
-                throw new Error(`No value found in ${nodeData.type} node data with id ${nodeData.id}.`)
-            }
-    
-            this.setValue = _setValue
-        } catch (error) {
-            console.log(error)
+        input[this.id] = {
+            'default_value': this.value,
+            'min': this.min,
+            'max': this.max,
         }
+
+        return input
     }
 }
+
 
 /**
  * Extends the base input to interface with Playbook's custom boolean nodes.
@@ -189,6 +178,12 @@ export class IBooleanNodeInput extends INodeInput {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    getAPIFormat() {
+        const input: NodeInputAPIFormat = {}
+        input[this.id] = { 'default_value': this.value }
+        return input
     }
 }
 
@@ -213,6 +208,12 @@ export class IImageNodeInput extends INodeInput {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    getAPIFormat() {
+        const input: NodeInputAPIFormat = {}
+        input[this.id] = { 'default_value': this.value }
+        return input
     }
 }
 
@@ -251,5 +252,11 @@ export class IMaskPassNodeInput extends INodeInput {
         // this.mask5Prompt = mask5Prompt
         // this.mask6Prompt = mask6Prompt
         // this.mask7Prompt = mask7Prompt
+    }
+
+    getAPIFormat() {
+        const input: NodeInputAPIFormat = {}
+        input[this.id] = { 'default_value': this.value }
+        return input
     }
 }

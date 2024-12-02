@@ -1,20 +1,18 @@
-import { DynamicInputsManager } from './DynamicInputManager.ts'
+import { PlaybookNodeInputsManager } from './playbookNodeInputsManager.ts'
 import {
     INodeInput,
     ITextNodeInput,
     INumberNodeInput,
-    IFloatNodeInput,
     IBooleanNodeInput,
     IImageNodeInput,
     IMaskPassNodeInput,
 } from './NodeInputs.ts'
 
 export {
-    DynamicInputsManager,
+    PlaybookNodeInputsManager,
     INodeInput,
     ITextNodeInput,
     INumberNodeInput,
-    IFloatNodeInput,
     IBooleanNodeInput,
     IImageNodeInput,
     IMaskPassNodeInput,
