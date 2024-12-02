@@ -1,25 +1,18 @@
-import { IBooleanNodeInput, IFloatNodeInput, IImageNodeInput, IMaskPassNodeInput, INodeInput, INumberNodeInput, ITextNodeInput } from "./NodeInputs";
-import { ComfyWorkflowData, ComfyWorkflowNodeData } from '../core'
+import {
+    INodeInput,
+    IBooleanNodeInput,
+    IImageNodeInput,
+    INumberNodeInput,
+    ITextNodeInput,
+} from "./NodeInputs";
+import { ComfyWorkflowGraphData, ComfyWorkflowNodeData } from '../core'
 
 /**
  * Provides an interface of data inputs which can be used to 
  * read and write values to and from dynamic workflow nodes in
  * a ComfyUI workflow.
  */
-export class DynamicInputsManager {
-    // private nodeInputs:  INodeInput[]
-    // private workflowData: ComfyWorkflowData
-
-    /**
-     * Instance a new DynamicInputsManager.
-     * @param workflowData JSON-formatted workflow data, output from
-     * a ComfyUI workflow.
-     */
-    constructor() {
-        // this.workflowData = _workflowData
-        // this.setNodeInputs(this.getNodeInputsFromWorkflowData(_workflowData))
-    }
-
+export class PlaybookNodeInputsManager {
     /**
      * Set the value of a given node within the given Comfy workflow data.
      * @param nodeId The unique identifier of the node within the Comfy workflow.
@@ -29,8 +22,8 @@ export class DynamicInputsManager {
      * @returns A Comfy workflow data object with the new value assigned. This object is an updated copy
      * of the workflow data object passed into this function.
      */
-    public setWorkflowNodeValue = (nodeId: number, value: any, _workflowData: ComfyWorkflowData): ComfyWorkflowData => {
-        const updatedWorkflowData: ComfyWorkflowData = { ..._workflowData }
+    public setWorkflowNodeValue = (nodeId: number, value: any, _workflowData: ComfyWorkflowGraphData): ComfyWorkflowGraphData => {
+        const updatedWorkflowData: ComfyWorkflowGraphData = { ..._workflowData }
         const nodeIndex: number = _workflowData.nodes.findIndex(node => node.id === nodeId)
 
         if (updatedWorkflowData.nodes[nodeIndex].type === 'Playbook Number' ||
@@ -48,7 +41,7 @@ export class DynamicInputsManager {
      * Parse JSON-formatted workflow data for dynamic nodes
      * and create corresponding data inputs for interfacing. 
      */
-    public getNodeInputsFromWorkflowData(workflowData: ComfyWorkflowData): INodeInput[] {
+    public getNodeInputsFromWorkflowData(workflowData: ComfyWorkflowGraphData): INodeInput[] {
         let nodeInputs: INodeInput[] = []
 
         const nodes: any[] = workflowData.nodes
@@ -62,8 +55,6 @@ export class DynamicInputsManager {
                     nodeInputs.push(new ITextNodeInput(node, setValueCallback))
                     break
                 case 'Playbook Float':
-                    nodeInputs.push(new IFloatNodeInput(node, setValueCallback))
-                    break
                 case 'Playbook Number':
                     nodeInputs.push(new INumberNodeInput(node, setValueCallback))
                     break
@@ -81,17 +72,4 @@ export class DynamicInputsManager {
         })
         return nodeInputs
     }
-
-    // public getNodeInputs() {
-    //     return this.nodeInputs
-    // }
-
-    // private setNodeInputs(nodeSockets: INodeInput[]) {
-    //     this.nodeInputs = nodeSockets
-    // }
-
-    // public getWorkflowData() {
-    //     console.log('getWorkflowData: ', this.workflowData)
-    //     return this.workflowData
-    // }
 }

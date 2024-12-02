@@ -1,9 +1,9 @@
 import {
-    ComfyWorkflowData,
+    ComfyWorkflowGraphData,
     ComfyWorkflowNodeData,
 } from './types.ts'
 
 export type {
-    ComfyWorkflowData,
+    ComfyWorkflowGraphData,
     ComfyWorkflowNodeData,
 }

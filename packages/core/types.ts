@@ -1,4 +1,4 @@
-export type ComfyWorkflowData = {
+export type ComfyWorkflowGraphData = {
     last_node_id: string,
     last_link_id: number,
     nodes: ComfyWorkflowNodeData[],
