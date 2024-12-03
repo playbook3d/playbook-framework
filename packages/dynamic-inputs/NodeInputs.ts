@@ -1,5 +1,5 @@
 import { ComfyWorkflowNodeData } from "../core/types"
-import { NodeInputAPIFormat } from "./types"
+import { NodeInputAPIFormat } from "../core/types"
 
 /**
  * Defines the base data input which provides an interface between
