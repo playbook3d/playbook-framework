@@ -1,1 +1,0 @@
-export type NodeInputAPIFormat = Record<number, Record<string, string|number|boolean>>
