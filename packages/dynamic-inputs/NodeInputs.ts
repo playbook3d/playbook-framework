@@ -94,11 +94,8 @@ export class ITextNodeInput extends INodeInput {
         const input: NodeInputAPIFormat = {}
 
         input[this.id] = {
-            // class_type: this.type,
-            inputs: {
-                'default_value': this.value,
-                'trigger_words': this.triggerWords,
-            }
+            'default_value': this.value,
+            'trigger_words': this.triggerWords,
         }
 
         return input
