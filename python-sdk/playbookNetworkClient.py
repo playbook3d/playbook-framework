@@ -106,29 +106,7 @@ class PlaybookClient :
         workflow_response = workflows_request.json()
         available_workflows = []
         for workflow in workflow_response:
-            internal_workflow = PlaybookWorkflow(
-                workflow_id=workflow["id"],
-                name=workflow["name"],
-                owner_id=workflow["owner_id"],
-                team_id=workflow["team_id"],
-                last_edited=workflow["last_edited"],
-                is_external=workflow["is_external"],
-                canvas_type=workflow["canvas_type"],
-                public=workflow["public"],
-                last_form_data=workflow["last_form_data"],
-            )
-            if workflow["workflow_url"] is not None:
-                internal_workflow.workflow_url = workflow["workflow_url"]
-
-            if workflow["workflow_api_url"] is not None:
-                internal_workflow.workflow_api_url = workflow["workflow_api_url"]
-
-            if workflow["s3_file_id"] is not None:
-                internal_workflow.s3_file_id = workflow["s3_file_id"]
-
-            if workflow["public_url"] is not None:
-                internal_workflow.public_url = workflow["public_url"]
-
+            internal_workflow = PlaybookWorkflow.from_json(workflow)
             available_workflows.append(internal_workflow)
         return available_workflows
 

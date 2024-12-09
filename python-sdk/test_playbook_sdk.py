@@ -62,6 +62,32 @@ class TestPlaybookSDK(unittest.TestCase):
         self.assertIsInstance(current_user, PlaybookUser)
         self.assertEqual(current_user.status, "Active")
 
+    def test_create_workflow(self):
+        workflow_data = {"id": "12345",
+    "name": "Demo #1",
+    "owner_id": "12345",
+    "team_id": "12345",
+    "last_edited": None,
+    "workflow_url": None,
+    "workflow_api_url": None,
+    "is_external": None,
+    "s3_file_id": "12345",
+    "canvas_type": None,
+    "public_url": None,
+    "public": None,
+    "created_at": "2024-11-30T01:11:50.295Z",
+    "updated_at": "2024-12-07T23:26:45.240Z",
+    "last_form_data": None}
+        new_workflow = PlaybookWorkflow.from_json(workflow_data)
+        self.assertIsInstance(new_workflow, PlaybookWorkflow)
+        self.assertEqual(new_workflow.name, "Demo #1")
+        self.assertEqual(new_workflow.owner_id, "12345")
+
+    def test_get_workflows(self):
+        available_workflows = self.playbook_client.get_user_workflows()
+        self.assertIsInstance(available_workflows[0], PlaybookWorkflow)
+
+
 
     def tearDown(self):
         pass
